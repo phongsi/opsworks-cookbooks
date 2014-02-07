@@ -47,9 +47,9 @@ rescue LoadError
     resources("package[#{pg_pack}]").run_action(:install)
   end
   
-  package "libpq-dev" do
-    action :nothing
-  end.run_action(:install)
+  # package "libpq-dev" do
+  #   action :nothing
+  # end.run_action(:install)
 
   begin
     chef_gem "pg"
