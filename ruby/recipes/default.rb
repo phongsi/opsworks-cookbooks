@@ -66,9 +66,9 @@ execute "Install Ruby #{node[:ruby][:full_version]}" do
   cwd "/tmp"
   case node[:platform]
   when 'centos','redhat','fedora','amazon'
-    command "rpm -Uvh /tmp/#{node['ruby']['rpm']}"
+    command "(rpm -qa | grep opsworks-ruby) || (rpm -Uvh /tmp/#{node['ruby']['rpm']})"
     only_if do
-      ::File.exists?("/tmp/#{node['ruby']['rpm']}")
+      ::File.exists?("/tmp/#{node['ruby']['rpm']}") && 
     end
 
   when 'debian','ubuntu'
