@@ -6,6 +6,7 @@ node[:deploy].each do |application, deploy|
     user deploy[:user]
 
     action :nothing
+    only_if { node[:opsworks][:instance][:layers].include?('rails-app') }
   end
 
 end
