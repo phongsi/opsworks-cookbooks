@@ -27,8 +27,8 @@ node[:deploy].each do |application, deploy|
 
   template "#{node[:monit][:includes_dir]}/continuous_tasks_#{application}.monitrc" do
     mode 0644
-    source "continuous_tasks.monitrc.erb"
-    variables(:deploy => deploy, :application => application, :delayed_job => node[:delayed_job][application])
+    source "continuous_tasks_monitrc.erb"
+    variables(:deploy => deploy, :application => application)
     
     notifies :reload, resources(:service => "monit"), :immediately
   end

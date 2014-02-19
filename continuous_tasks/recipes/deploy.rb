@@ -15,7 +15,7 @@ node[:deploy].each do |application, deploy|
 
   include_recipe "continuous_tasks::setup"
 
-  node.set[:opsworks][:rails_stack][:restart_command] = node[:delayed_job][application][:restart_command]
+  node.set[:opsworks][:rails_stack][:restart_command] = node[:continuous_tasks][application][:restart_command]
 
   opsworks_deploy do
     deploy_data deploy
