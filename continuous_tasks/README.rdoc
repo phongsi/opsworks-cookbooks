@@ -1,0 +1,12 @@
+This work is based off of delayed jobs cookbook by Joey Aghion, Artsy
+
+OpsWorks Set-Up
+---------------
+
+Create a custom layer for the continuous_tasks instances. Add the `AWS-OpsWorks-Rails-App-Server` security group to the layer, so that the instances have the usual cache and database access. Then, assign this cookbook's custom chef recipes to OpsWorks events as follows:
+
+* **Setup**: `continuous_tasks::setup`
+* **Configure**: `continuous_tasks::configure`
+* **Deploy**: `continuous_tasks::deploy`
+* **Undeploy**: `continuous_tasks::undeploy`
+* **Shutdown**: `continuous_tasks::stop`
