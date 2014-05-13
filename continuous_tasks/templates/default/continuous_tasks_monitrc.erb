@@ -1,5 +1,5 @@
-check process continuous_tasks.rb
-  with pidfile <%= @deploy[:deploy_to] %>/shared/pids/continuous_tasks.rb.pid
+check process continuous_tasks
+  with pidfile <%= @deploy[:deploy_to] %>/shared/pids/continuous_tasks.pid
   start program = "/bin/su - <%= @deploy[:user] %> -c 'cd <%= @deploy[:current_path] %> && RAILS_ENV=<%= @deploy[:rails_env] %> bundle exec script/continuous_tasks_control start'"
   stop  program = "/bin/su - <%= @deploy[:user] %> -c 'cd <%= @deploy[:current_path] %> && RAILS_ENV=<%= @deploy[:rails_env] %> bundle exec script/continuous_tasks_control stop'"
   group continuous_tasks_<%= @application %>_group
