@@ -3,6 +3,7 @@ if node[:opsworks_bundler][:manage_package]
     gem_binary node[:dependencies][:gem_binary]
     retries 2
     package_name "bundler"
+    returns [0,'']
     action :install
     version node[:opsworks_bundler][:version]
   end
