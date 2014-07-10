@@ -1,5 +1,0 @@
-check process clockworkd_<%= @app_name %>
-  with pidfile <%= @deploy[:deploy_to] %>/shared/pids/clockworkd.<%= @app_name %>.pid
-  start program = "/bin/su - <%= @deploy[:user] %> -c 'cd <%= @deploy[:current_path] %> && RAILS_ENV=<%= @deploy[:rails_env] %> bundle exec clockworkd start -c lib/clock.rb -i <%= @app_name %> --pid-dir=<%= @deploy[:deploy_to] %>/shared/pids'" with timeout 90 seconds
-  stop program = "/bin/su - <%= @deploy[:user] %> -c 'cd <%= @deploy[:current_path] %> && RAILS_ENV=<%= @deploy[:rails_env] %> bundle exec clockworkd stop -c lib/clock.rb -i <%= @app_name %> --pid-dir=<%= @deploy[:deploy_to] %>/shared/pids'" with timeout 30 seconds
-  group clockworkd_<%= @app_name %>

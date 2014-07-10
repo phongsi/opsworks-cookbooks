@@ -1,11 +1,4 @@
 # Apache request monitoring with http://vuksan.com/linux/ganglia/index.html
-case node["platform_family"]
-when "rhel"
-  package 'logcheck'
-when "debian"
-  package 'logtail'
-end
-
 cookbook_file '/tmp/ganglia-logtailer.tar.gz' do
   source 'ganglia-logtailer.tar.gz'
 end

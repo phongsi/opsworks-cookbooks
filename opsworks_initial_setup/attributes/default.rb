@@ -1,3 +1,19 @@
+###
+# Do not use this file to override the opsworks_initial_setup cookbook's default
+# attributes.  Instead, please use the customize.rb attributes file,
+# which will keep your adjustments separate from the AWS OpsWorks
+# codebase and make it easier to upgrade.
+#
+# However, you should not edit customize.rb directly. Instead, create
+# "opsworks_initial_setup/attributes/customize.rb" in your cookbook repository and
+# put the overrides in YOUR customize.rb file.
+#
+# Do NOT create an 'opsworks_initial_setup/attributes/default.rb' in your cookbooks. Doing so
+# would completely override this file and might cause upgrade issues.
+#
+# See also: http://docs.aws.amazon.com/opsworks/latest/userguide/customizing.html
+###
+
 GC.disable unless node[:opsworks] && node[:opsworks][:instance] && node[:opsworks][:instance][:instance_type] == 't1.micro'
 
 # this values must match the ones respective ones in the agent configuration
@@ -8,9 +24,12 @@ default[:opsworks_agent][:log_dir] = '/var/log/aws/opsworks'
 default[:opsworks_agent][:user] = 'aws'
 default[:opsworks_agent][:group] = 'aws'
 
-default[:opsworks][:ruby_stack] = 'ruby_enterprise'
+default[:opsworks][:ruby_stack] = 'ruby'
 default[:opsworks][:ruby_version] = '1.9.3'
 default[:opsworks][:run_cookbook_tests] = false
+
+default['opsworks_initial_setup']['swapfile_name'] = '/var/swapfile'
+default['opsworks_initial_setup']['swapfile_size_mb'] = 256
 
 default[:opsworks_initial_setup][:sysctl] = Mash.new
 default[:opsworks_initial_setup][:sysctl]['net.core.somaxconn'] = 1024           # 128
@@ -65,3 +84,5 @@ end
 
 # landscape removal
 default[:opsworks_initial_setup][:landscape][:packages_to_remove] = ['landscape-common', 'landscape-client']
+
+include_attribute "opsworks_initial_setup::customize"
