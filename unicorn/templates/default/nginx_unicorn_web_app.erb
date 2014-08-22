@@ -54,8 +54,11 @@ server {
   }
 
   location ~ ^/assets/ {
+    root <%= @application[:absolute_document_root] %>;
+    gzip_static on;
     expires 1w;
     add_header Cache-Control public;
+    add_header ETag "";
     break;
   }
 
