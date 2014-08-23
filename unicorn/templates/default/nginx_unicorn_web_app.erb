@@ -35,6 +35,15 @@ server {
     deny all;
   }
 
+  location ~ ^/assets/ {
+    root <%= @application[:absolute_document_root] %>;
+    gzip_static on;
+    expires 1w;
+    add_header Cache-Control public;
+    add_header ETag "";
+    break;
+  }
+
   error_page 500 502 503 504 /500.html;
   location = /500.html {
     root <%= @application[:absolute_document_root] %>;
