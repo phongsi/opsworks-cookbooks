@@ -3,6 +3,6 @@ node[:deploy].each do |application, deploy|
     minute "0"
     hour "1"
     weekday "6"
-    command "find /srv/www/#{application}/shared/log -mtime +7 -type f -name \"*.log*\" | xargs rm"
+    command 'find /srv/www/#{application}/shared/log -mtime +7 -type f -name "*.log*" | xargs rm'
   end
 end
