@@ -11,7 +11,7 @@ version          '0.7.6'
   supports os
 end
 
-%w{ build-essential java logrotate }.each do |ckbk|
+%w{ build-essential java logrotate yum }.each do |ckbk|
   depends ckbk
 end
 
