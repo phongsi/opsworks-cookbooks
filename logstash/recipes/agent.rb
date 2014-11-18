@@ -230,3 +230,10 @@ logrotate_app 'logstash' do
     EOF
   end
 end
+
+template "#{node['logstash']['agent']['monit_dir']}/logstash_agent.monitrc" do
+  mode 0644
+  source "logstash_agent_monitrc.erb"
+
+  notifies :reload, resources(:service => "monit"), :immediately
+end
