@@ -234,6 +234,9 @@ end
 template "#{node['logstash']['agent']['monit_dir']}/logstash_agent.monitrc" do
   mode 0644
   source "logstash_agent_monitrc.erb"
+end
 
-  notifies :reload, resources(:service => "monit"), :immediately
+service "monit" do
+  supports :status => false, :restart => true, :reload => true
+  action :nothing
 end
