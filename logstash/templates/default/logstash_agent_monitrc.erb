@@ -1,4 +1,4 @@
 check process logstash_agent
   with pidfile /var/run/logstash/agent.pid
-  start program = "service logstash_agent start"
-  stop  program = "service logstash_agent stop"
+  start program = "/sbin/service logstash_agent start"
+  stop  program = "/sbin/service logstash_agent stop"
