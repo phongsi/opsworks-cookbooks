@@ -2,6 +2,14 @@ upstream unicorn_<%= @application[:domains].first %> {
  server unix:<%= @application[:deploy_to]%>/shared/sockets/unicorn.sock fail_timeout=0;
 }
 
+<% if @application[:nginx][:memcached][:enabled] %>
+  upstream memcached_servers {
+    <% @application[:nginx][:memcached][:servers].each do |mserver| %>
+      server <%= mserver %>;
+    <% end %>
+  }
+<% end %>
+
 server {
   listen 80;
   server_name <%= @application[:domains].join(" ") %> <%= node[:hostname] %>;
@@ -68,12 +76,6 @@ server {
       memcached_read_timeout 2s;
       memcached_pass memcached_servers;
       error_page 404 = @unicorn;
-    }
-
-    upstream memcached_servers {
-      <% @application[:nginx][:memcached][:servers].each do |mserver| %>
-        server <%= mserver %>;
-      <% end %>
     }
   <% end %>
 
