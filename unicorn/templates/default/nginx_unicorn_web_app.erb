@@ -62,6 +62,21 @@ server {
     break;
   }
 
+  <% if node['deploy']['nginx']['memcached']['enabled'] %>
+    location ~ /(current_length.html|current_wait.html) {
+      set $memcached_key $request_uri;
+      memcached_read_timeout 2s
+      memcached_pass memcached_servers;
+      error_page 404 = @unicorn;
+    }
+
+    upstream memcached_servers {
+      <% node['deploy']['nginx']['memcached']['servers'].each do |mserver| %>
+        server <%= mserver %>;
+      <% end %>
+    }
+  <% end %>
+
   error_page 500 502 503 504 /500.html;
   location = /500.html {
     root <%= @application[:absolute_document_root] %>;
