@@ -62,7 +62,7 @@ server {
     break;
   }
 
-  <% if node['deploy']['nginx']['memcached']['enabled'] %>
+  <% if node[:deploy][:nginx][:memcached][:enabled] %>
     location ~ /(current_length.html|current_wait.html) {
       set $memcached_key $request_uri;
       memcached_read_timeout 2s
@@ -71,7 +71,7 @@ server {
     }
 
     upstream memcached_servers {
-      <% node['deploy']['nginx']['memcached']['servers'].each do |mserver| %>
+      <% node[:deploy][:nginx][:memcached][:servers].each do |mserver| %>
         server <%= mserver %>;
       <% end %>
     }
