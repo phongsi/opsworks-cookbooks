@@ -75,6 +75,11 @@ server {
     set $memcached_key $uri;
     memcached_read_timeout 2s;
     memcached_pass memcached_servers;
+    types {
+      text/javascript  html;
+    }
+    charset_types text/javascript;
+    charset utf-8;
     error_page 404 502 504 = @unicorn;
   }
   <% end %>
