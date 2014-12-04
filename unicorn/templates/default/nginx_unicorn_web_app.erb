@@ -3,11 +3,11 @@ upstream unicorn_<%= @application[:domains].first %> {
 }
 
 <% if @application[:nginx][:memcached][:enabled] %>
-  upstream memcached_servers {
-    <% @application[:nginx][:memcached][:servers].each do |mserver| %>
-      server <%= mserver %>;
-    <% end %>
-  }
+upstream memcached_servers {
+  <% @application[:nginx][:memcached][:servers].each do |mserver| %>
+    server <%= mserver %>;
+  <% end %>
+}
 <% end %>
 
 server {
@@ -71,12 +71,12 @@ server {
   }
 
   <% if @application[:nginx][:memcached][:enabled] %>
-    location ~ /(current_length.html|current_wait.html) {
-      set $memcached_key $request_uri;
-      memcached_read_timeout 2s;
-      memcached_pass memcached_servers;
-      error_page 404 = @unicorn;
-    }
+  location ~ /(current_length.html|current_wait.html) {
+    set $memcached_key $uri;
+    memcached_read_timeout 2s;
+    memcached_pass memcached_servers;
+    error_page 404 502 504 = @unicorn;
+  }
   <% end %>
 
   error_page 500 502 503 504 /500.html;
