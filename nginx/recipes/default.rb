@@ -18,7 +18,18 @@
 # limitations under the License.
 #
 
-package "nginx"
+remote_file "#{Chef::Config['file_cache_path'] || '/tmp'}/nginx-1.7.2-1.el6.ngx.src.rpm" do
+  source "http://nginx.org/packages/mainline/rhel/6/SRPMS/nginx-1.7.2-1.el6.ngx.src.rpm"
+  action :create_if_missing
+end
+
+package "nginx-repo" do
+  source "#{Chef::Config['file_cache_path'] || '/tmp'}/nginx-1.7.2-1.el6.ngx.src.rpm"
+  provider Chef::Provider::Package::Rpm
+  action :install
+end
+# package "nginx"
+# nginx::source
 
 directory node[:nginx][:dir] do
   owner 'root'

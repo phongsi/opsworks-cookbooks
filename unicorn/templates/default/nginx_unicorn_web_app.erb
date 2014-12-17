@@ -73,7 +73,8 @@ server {
   <% if @application[:nginx] && @application[:nginx][:memcached] && @application[:nginx][:memcached][:enabled] %>
   location ~ /(current_length.html|current_wait.html) {
     set $memcached_key $uri;
-    memcached_read_timeout 2s;
+    memcached_connect_timeout 100ms;
+    memcached_read_timeout 100ms;
     memcached_pass memcached_servers;
     types {
       text/javascript  html;
