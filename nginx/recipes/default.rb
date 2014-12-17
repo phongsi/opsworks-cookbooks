@@ -26,7 +26,7 @@ end
 
 execute "rebuild-nginx-src-rpm" do
   command "rpmbuild --rebuild #{Chef::Config['file_cache_path'] || '/tmp'}/nginx-1.7.8-1.el6.ngx.src.rpm"
-    not_if { ::File.exists?("/usr/src/rpm/RPMS/x86_64/nginx-1.7.8-1.amzn1.ngx.x86_64.rpm")}
+  not_if { ::File.exists?("/usr/src/rpm/RPMS/x86_64/nginx-1.7.8-1.amzn1.ngx.x86_64.rpm")}
 end
 
 package "nginx" do
@@ -34,8 +34,12 @@ package "nginx" do
   provider Chef::Provider::Package::Rpm
   action :install
 end
+
+execute "cleanup-confs" do
+  command "rm -f /etc/nginx/conf.d/*"
+end
+
 # package "nginx"
-# nginx::source
 
 directory node[:nginx][:dir] do
   owner 'root'
