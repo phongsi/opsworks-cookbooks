@@ -16,15 +16,21 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#
 
+#required for rebuild of src rpm
+package "pcre-devel"
 remote_file "#{Chef::Config['file_cache_path'] || '/tmp'}/nginx-1.7.2-1.el6.ngx.src.rpm" do
   source "http://nginx.org/packages/mainline/rhel/6/SRPMS/nginx-1.7.2-1.el6.ngx.src.rpm"
   action :create_if_missing
 end
 
-package "nginx-repo" do
-  source "#{Chef::Config['file_cache_path'] || '/tmp'}/nginx-1.7.2-1.el6.ngx.src.rpm"
+execute "rebuild-nginx-src-rpm" do
+  command "rpmbuild --rebuild #{Chef::Config['file_cache_path'] || '/tmp'}/nginx-1.7.2-1.el6.ngx.src.rpm"
+    not_if { ::File.exists?("/usr/src/rpm/RPMS/x86_64/nginx-1.7.2-1.amzn1.ngx.x86_64.rpm")}
+end
+
+package "nginx" do
+  source "/usr/src/rpm/RPMS/x86_64/nginx-1.7.2-1.amzn1.ngx.x86_64.rpm"
   provider Chef::Provider::Package::Rpm
   action :install
 end
