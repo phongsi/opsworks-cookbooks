@@ -4,9 +4,9 @@ upstream unicorn_<%= @application[:domains].first %> {
 
 <% if @application[:nginx] && @application[:nginx][:memcached] && @application[:nginx][:memcached][:enabled] %>
 upstream memcached_servers {
-  hash $uri consistent;
+  hash $uri;
   <% @application[:nginx][:memcached][:servers].each do |mserver| %>
-    server <%= mserver %>;
+  server <%= mserver %>;
   <% end %>
 }
 <% end %>
