@@ -7,7 +7,6 @@ upstream memcached_servers {
   <% @application[:nginx][:memcached][:servers].each do |mserver| %>
   server <%= mserver %>;
   <% end %>
-  hash $uri consistent;
 }
 <% end %>
 

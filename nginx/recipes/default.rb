@@ -18,28 +18,28 @@
 # limitations under the License.
 
 #required for rebuild of src rpm
-package "pcre-devel"
-remote_file "#{Chef::Config['file_cache_path'] || '/tmp'}/nginx-1.7.8-1.el6.ngx.src.rpm" do
-  source "http://nginx.org/packages/mainline/rhel/6/SRPMS/nginx-1.7.8-1.el6.ngx.src.rpm"
-  action :create_if_missing
-end
+# package "pcre-devel"
+# remote_file "#{Chef::Config['file_cache_path'] || '/tmp'}/nginx-1.7.8-1.el6.ngx.src.rpm" do
+#   source "http://nginx.org/packages/mainline/rhel/6/SRPMS/nginx-1.7.8-1.el6.ngx.src.rpm"
+#   action :create_if_missing
+# end
 
-execute "rebuild-nginx-src-rpm" do
-  command "rpmbuild --rebuild #{Chef::Config['file_cache_path'] || '/tmp'}/nginx-1.7.8-1.el6.ngx.src.rpm"
-  not_if { ::File.exists?("/usr/src/rpm/RPMS/x86_64/nginx-1.7.8-1.amzn1.ngx.x86_64.rpm")}
-end
+# execute "rebuild-nginx-src-rpm" do
+#   command "rpmbuild --rebuild #{Chef::Config['file_cache_path'] || '/tmp'}/nginx-1.7.8-1.el6.ngx.src.rpm"
+#   not_if { ::File.exists?("/usr/src/rpm/RPMS/x86_64/nginx-1.7.8-1.amzn1.ngx.x86_64.rpm")}
+# end
 
-package "nginx" do
-  source "/usr/src/rpm/RPMS/x86_64/nginx-1.7.8-1.amzn1.ngx.x86_64.rpm"
-  provider Chef::Provider::Package::Rpm
-  action :install
-end
+# package "nginx" do
+#   source "/usr/src/rpm/RPMS/x86_64/nginx-1.7.8-1.amzn1.ngx.x86_64.rpm"
+#   provider Chef::Provider::Package::Rpm
+#   action :install
+# end
 
-execute "cleanup-confs" do
-  command "rm -f /etc/nginx/conf.d/*"
-end
+# execute "cleanup-confs" do
+#   command "rm -f /etc/nginx/conf.d/*"
+# end
 
-# package "nginx"
+package "nginx"
 
 directory node[:nginx][:dir] do
   owner 'root'
