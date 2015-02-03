@@ -29,4 +29,11 @@ node[:deploy].each do |application, deploy|
     weekday "*"
     command "/bin/su - #{deploy[:user]} -c 'cd /srv/www/#{application}/current && RAILS_ENV=production bundle exec rails runner \"ActionAutomator.request_timestamps\"'"
   end
+  cron "calculate_daily_stats" do
+    environment cron_env
+    minute "0"
+    hour "10"
+    weekday "*"
+    command "/bin/su - #{deploy[:user]} -c 'cd /srv/www/#{application}/current && RAILS_ENV=production bundle exec rails runner \"ActionAutomator.yesterdays_stats\"'"
+  end
 end
