@@ -19,9 +19,6 @@ node[:deploy].each do |application, deploy|
     weekday "*"
     command "/bin/su - #{deploy[:user]} -c 'cd /srv/www/#{application}/current && RAILS_ENV=production bundle exec rails runner \"ActionAutomator.send_daily_performance_reports\"'"
   end
-
-  node[:deploy].each do |application, deploy|
-  cron_env = {"PATH" => "/usr/local/bin:$PATH"}
   cron 'calculate_historical_velocities' do
     environment cron_env
     minute "0"
