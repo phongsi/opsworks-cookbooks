@@ -30,3 +30,14 @@ node[:deploy].each do |application, deploy|
     command "/bin/su - #{deploy[:user]} -c 'cd /srv/www/#{application}/current && RAILS_ENV=production bundle exec rails runner \"ActionAutomator.update_historical_velocities\"'"
   end
 end
+
+  node[:deploy].each do |application, deploy|
+  cron_env = {"PATH" => "/usr/local/bin:$PATH"}
+  cron 'update_clockwise_utilization_stats' do
+    environment cron_env
+    minute "0"
+    hour "9"
+    weekday "*"
+    command "/bin/su - #{deploy[:user]} -c 'cd /srv/www/#{application}/current && RAILS_ENV=production bundle exec rails runner \"ActionAutomator.update_clockwise_utilization_stats\"'"
+  end
+end
