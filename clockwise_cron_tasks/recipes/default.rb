@@ -69,6 +69,6 @@ node[:deploy].each do |application, deploy|
     minute "0"
     hour "9"
     weekday "*"
-    command "/bin/su - #{deploy[:user]} -c 'cd /srv/www/#{application}/current && RAILS_ENV=production bundle exec rails runner \"ActionAutomator.update_clockwise_utilization_stats\"'"
+    command "/bin/su - #{deploy[:user]} -c 'cd /srv/www/#{application}/current && RAILS_ENV=production bundle exec rails runner \"ActionAutomator.update_clockwise_utilization_stats(1)\"'"
   end
 end
