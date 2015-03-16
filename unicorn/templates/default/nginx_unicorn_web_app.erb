@@ -14,14 +14,18 @@ server {
   listen 80;
   server_name <%= @application[:domains].join(" ") %> <%= node[:hostname] %>;
 
-  set $maintenance 0;
+  set $maintenance_mode 0;
 
   # is there maintenance file set?
-  if (-f <%= @application[:absolute_document_root] %>/../tmp/503.html) {
-    set $maintenance 1;
+  if (-f <%= @deploy[:deploy_to] %>/tmp/503.html) {
+    set $maintenance_mode 1;
   }
 
-  if ($maintenance = 1) {
+  if ($request_uri ~ heartbeat) {
+    set $maintenance_mode 0;
+  }
+
+  if ($maintenance_mode = 1) {
     return 503;
   }
 
@@ -158,7 +162,7 @@ server {
     }
   }
 
-  error_page 500 502 503 504 /500.html;
+  error_page 500 502 504 /500.html;
   location = /500.html {
     root <%= @application[:absolute_document_root] %>;
   }
