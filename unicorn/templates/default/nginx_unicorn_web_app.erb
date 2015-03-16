@@ -14,6 +14,26 @@ server {
   listen 80;
   server_name <%= @application[:domains].join(" ") %> <%= node[:hostname] %>;
 
+  set $maintenance 0;
+
+  # is there maintenance file set?
+  if (-f <%= @application[:absolute_document_root] %>/tmp/503.html) {
+    set $maintenance 1;
+  }
+
+  if ($maintenance = 1) {
+    return 503;
+  }
+
+  # maintenance mode
+  error_page 503 @503;
+
+  # rewrite everything to 503.html
+  location @503 {
+    rewrite ^ /503.html last;
+    break;
+  }
+
   <% if @application[:log_format] %>
     <% @application[:log_format].each do |log_format_name| %>
   access_log <%= node[:nginx][:log_dir] %>/<%= @application[:domains].first %>.access.<%= log_format_name %>.log <%= log_format_name %>;
@@ -86,7 +106,7 @@ server {
   }
   <% end %>
 
-  error_page 500 502 503 504 /500.html;
+  error_page 500 502 504 /500.html;
   location = /500.html {
     root <%= @application[:absolute_document_root] %>;
   }
