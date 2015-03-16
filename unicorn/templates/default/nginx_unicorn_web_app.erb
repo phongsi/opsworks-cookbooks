@@ -17,7 +17,7 @@ server {
   set $maintenance_mode 0;
 
   # is there maintenance file set?
-  if (-f <%= @deploy[:deploy_to] %>/tmp/503.html) {
+  if (-f <%= @application[:deploy_to] %>/tmp/503.html) {
     set $maintenance_mode 1;
   }
 
