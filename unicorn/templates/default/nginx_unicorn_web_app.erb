@@ -17,7 +17,7 @@ server {
   set $maintenance 0;
 
   # is there maintenance file set?
-  if (-f <%= @application[:absolute_document_root] %>/tmp/503.html) {
+  if (-f <%= @application[:absolute_document_root] %>/../tmp/503.html) {
     set $maintenance 1;
   }
 
