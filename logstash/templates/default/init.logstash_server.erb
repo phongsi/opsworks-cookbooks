@@ -25,14 +25,14 @@ start() {
 
   if [ ! -d "$PIDDIR" ] ; then
     mkdir "$PIDDIR"
-    chown -R $LS_USER:$LS_USER $PIDDIR
+    chown -R $LS_USER $PIDDIR
   fi
 
   if [ ! -d "$LOGDIR" ] ; then
     mkdir "$LOGDIR"
   fi
 
-  chown -R $LS_USER:$LS_USER $LOGDIR $PIDDIR
+  chown -R $LS_USER $LOGDIR $PIDDIR
 
 
   if [ -f $PIDFILE ]; then
