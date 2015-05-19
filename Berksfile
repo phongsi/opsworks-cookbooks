@@ -1,0 +1,1 @@
+cookbook 'clamav-chef', git: 'git@github.com:RoboticCheese/clamav-chef.git'
