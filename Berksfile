@@ -1,1 +1,1 @@
-cookbook 'clamav-chef', git: 'git@github.com:RoboticCheese/clamav-chef.git'
+cookbook 'clamav-chef', git: 'https://github.com/RoboticCheese/clamav-chef.git'
